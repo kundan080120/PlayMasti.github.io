@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> </title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #FF74F0;
+    }
+
+    .container {
+      display: none;
+      /* Hidden by default */
+      padding: 5px;
+    }
+
+
+    .gift-button:hover {
+      transform: scale(1.1);
+    }
+
+    h1,
+    h2 {
+      margin: 10px 0;
+    }
+
+    h1 {
+      color: #FF5733;
+      font-size: 2.5em;
+    }
+
+    h2 {
+      color: #28a745;
+      font-size: 1.8em;
+    }
+
+    .timer {
+      margin: 20px 0;
+      font-size: 1.3em;
+      color: #d9534f;
+    }
+
+    .name-box {
+      margin: 20px 0;
+    }
+
+    .name-box input {
+      width: 70%;
+      padding: 10px;
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+
+    .name-box button {
+      padding: 10px 15px;
+      background-color: #ffc107;
+      border: none;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .greeting {
+      margin: 20px 0;
+      font-size: 1.5em;
+      color: #007bff;
+    }
+
+    .kites {
+      margin: 20px 0;
+    }
+
+    .kites img {
+      width: 50px;
+      margin: 5px;
+    }
+
+    .share-btn {
+      margin: 20px 0;
+      display: none;
+      /* Initially hide the button */
+    }
+
+    .share-btn button {
+      padding: 10px 20px;
+      background: #25d366;
+      color: white;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+    }
+ {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin: 20px 0;
+    }
+
+   
+    .mkr img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    /* Content Box with Border */
+    .content-frame {
+      position: relative;
+      width: 90%;
+      padding: 10px;
+      background: #fff;
+      border-radius: 15px;
+      border: 5px solid #FF00A0;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      /* Hide any overflow outside the border */
+    }
+
+    /* Moving kites outside the content frame */
+    .moving-kites {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      right: 0;
+      z-index: -1;
+      /* Keep the kites behind the content */
+      animation: moveKites 10s linear infinite;
+    }
+
+    /* Animation for moving kites */
+    @keyframes moveKites {
+      0% {
+        transform: translateX(-100%);
+        /* Start from left */
+      }
+
+      100% {
+        transform: translateX(100%);
+        /* Move to right */
+      }
+    }
+
+    .moving-kites img {
+      width: 50px;
+      position: absolute;
+      top: 0;
+      animation: kiteAnimation 12s infinite linear;
+    }
+
+    /* Animation for individual kite movement */
+    @keyframes kiteAnimation {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-100px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .color-change {
+      font-size: 1.8em;
+      font-weight: bold;
+      animation: colorAnimation 5s infinite alternate;
+    }
+
+    @keyframes colorAnimation {
+      0% {
+        color: #FF5733;
+        /* Red */
+      }
+
+      25% {
+        color: #33FF57;
+        /* Green */
+      }
+
+      50% {
+        color: #3357FF;
+        /* Blue */
+      }
+
+      75% {
+        color: #FF33A1;
+        /* Pink */
+      }
+
+      100% {
+        color: #FFD700;
+        /* Yellow */
+      }
+    }
+
+    #user-name {
+
+      font-weight: bold;
+      animation: colorAnimation 0.5s infinite alternate;
+
+
+      @keyframes colorAnimation {
+        0% {
+          color: #FF5733;
+          /* Red */
+        }
+
+        25% {
+          color: #33FF57;
+          /* Green */
+        }
+
+        50% {
+          color: #3357FF;
+          /* Blue */
+        }
+
+        75% {
+          color: #FF33A1;
+          /* Pink */
+        }
+
+        100% {
+          color: #FFD700;
+          /* Yellow */
+        }
+      }
+    }
+
+    .wish {
+      width: 180px;
+    }
+
+    .timer {
+      color: #1732FF;
+    }
+
+    .happym {
+      font-weight: bold;
+      font-size: 20px;
+      color: #4C00FF;
+    }
+
+    .gift-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .gift-button {
+      padding: 20px 40px;
+      font-size: 1.5em;
+      background: linear-gradient(45deg, #ff5722, #ff9800);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease-in-out, box-shadow 0.2s, background 0.2s ease-in-out;
+    }
+
+    /* Hover effect - Grow button */
+    .gift-button:hover {
+      transform: scale(1.1);
+      /* Button grows on hover */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #ff9800, #ff5722);
+    }
+
+    /* Active effect - Button shrinks */
+    .gift-button:active {
+      transform: scale(0.95);
+      /* Button shrinks on click */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Downward Finger Animation */
+    .finger {
+      font-size: 4em;
+      animation: pointAnimation 1.5s infinite alternate;
+      margin-bottom: 20px;
+      /* Space between finger and button */
+    }
+
+    @keyframes pointAnimation {
+      0% {
+        transform: translateY(-10px);
+        /* Start from slightly up */
+      }
+
+      50% {
+        transform: translateY(10px);
+        /* Move finger down */
+      }
+
+      100% {
+        transform: translateY(-10px);
+        /* Move finger up again */
+      }
+    }
+
+    /* Animation for Button */
+    .button-animation {
+      animation: buttonPulse 1.5s infinite;
+    }
+
+    @keyframes buttonPulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Audio File -->
+  <audio id="background-music" src="music.mp3" loop></audio>
+
+  <!-- Gift Section -->
+  <div class="gift-section" id="gift-section">
+    <!-- Downward pointing finger animation above the button -->
+    <div class="finger">👇</div>
+
+    <!-- Add animation to the button -->
+    <button class="gift-button button-animation" onclick="openContent()">🎁 Open Gift 🎁</button>
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="container" id="content-section">
+    <!-- Content with Border -->
+    <div class="content-frame">
+      <h2 id="user-name"></h2>
+
+      <img class="wish" src="wish.png">
+
+      <div class="timer" id="timer">11 दिन, 4 घंटे, 18 मिनट, 16 सेकंड पहले</div>
+
+      <div class="greeting color-change">मकर संक्रांति की हार्दिक शुभकामनाएं</div>
+
+      <h1>🙏</h1>
+      <div class="happym">॥🪁 हैप्पी मकर संक्रांति 🪁॥</div>
+      <div class="mkr">
+        <img src="mkr.jpeg" alt="Makar Sankranti">
+      </div>
+      <div class="happym">॥🪁 हैप्पी मकर संक्रांति 🪁॥</div>
+      <h2>नये सूरज की रौशनी,
+        नये साल की है सवारी।
+        मकर संक्रांति की बधाई हो,
+        हर ख्वाब हो साकार हमारी।</h2>
+      <div class="happym">॥🪁 हैप्पी मकर संक्रांति 🪁॥</div>
+
+      <div>
+        आपको और आपके परिवार को ढ़ेर सारी शुभकामनाएं
+      </div>
+
+      <div class="happym">॥🪁 हैप्पी मकर संक्रांति 🪁॥</div>
+      <div class="greeting" id="greeting"></div>
+
+      <div class="name-box" id="name-box">
+        <input type="text" id="nameInput" placeholder="अपना नाम लिखे और दोस्तो को भेजें... ">
+        <button onclick="generateGreeting()">✨देखें</button>
+      </div>
+      <div>Creator: Kundan Kumar</div>
+    </div>
+
+    <div class="share-btn" id="share-btn">
+      <button onclick="shareOnWhatsApp()">📤 Share on WhatsApp</button>
+    </div>
+
+    <!-- Moving Kites outside the border -->
+    <div class="moving-kites">
+      <img src="kite.jpeg" alt="Kite" style="right: 0;">
+      <img src="kite.jpeg" alt="Kite" style="left: 50px;">
+      <img src="kite.jpeg" alt="Kite" style="left: 100px;">
+    </div>
+  </div>
+
+  <script>
+    // Function to play music and show content section
+    function openContent() {
+      // Play background music
+      const music = document.getElementById("background-music");
+      music.play();
+
+      // Hide gift section and show content section
+      document.getElementById("gift-section").style.display = "none";
+      document.getElementById("content-section").style.display = "block";
+    }
+
+    // Countdown Timer
+    function startCountdown() {
+      const eventDate = new Date("2025-01-14T00:00:00+05:30").getTime();
+      const timer = document.getElementById("timer");
+
+      setInterval(() => {
+        const now = new Date().getTime();
+        const diff = eventDate - now;
+
+        if (diff <= 0) {
+          timer.innerHTML = "मकर संक्रांति का समय आ गया!";
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timer.innerHTML = `${days} दिन, ${hours} घंटे, ${minutes} मिनट, ${seconds} सेकंड पहले`;
+      }, 1000);
+    }
+
+    // Extract name from URL
+    function getNameFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get("name");
+      const userNameElem = document.getElementById("user-name");
+
+      if (name) {
+        userNameElem.innerHTML = `${name} `;
+      } else {
+        userNameElem.innerHTML = "मेरे  तरफ से";
+      }
+    }
+
+    // Generate Greeting and Update URL with New Name
+    function generateGreeting() {
+      const name = document.getElementById("nameInput").value.trim();
+      const greeting = document.getElementById("greeting");
+      const shareBtn = document.getElementById("share-btn");
+      const nameBox = document.getElementById("name-box");
+
+      if (name === "") {
+        greeting.innerHTML = "कृपया अपना नाम दर्ज करें!";
+        shareBtn.style.display = "none";
+      } else {
+        greeting.innerHTML = `${name} Warm wishes for Makar Sankranti `;
+        shareBtn.style.display = "block";
+
+        const newURL = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(name)}`;
+        window.history.pushState({path: newURL}, '', newURL);
+
+        document.getElementById("user-name").innerHTML = `${name} `;
+        nameBox.style.display = "none";
+      }
+    }
+
+    // Share on WhatsApp
+    function shareOnWhatsApp() {
+      const name = document.getElementById("nameInput").value.trim();
+      const message = name
+        ? `😳क्या आपने ये देखा??
+        ${name} ने आपको एक 
+        आश्चर्यजनक संदेश भेजा है 😍  
+ 💁अब इसे ओपन करें  
+ 👇 👇!`
+        : "मकर संक्रांति की हार्दिक शुभकामनाएं";
+
+      const url = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(name)}`;
+      const fullMessage = `${message} \n\n${url}`;
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(fullMessage)}`;
+      window.open(whatsappUrl, "_blank");
+    }
+
+    // Initialize
+    getNameFromURL();
+    startCountdown();
+  </script>
+</body>
+
+</html>
