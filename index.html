@@ -1,3 +1,76 @@
+<!doctype html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+
+    </body>
+<div id="page-views" style="margin-top: 20px; font-size: 1.2em; color: #007bff;">
+  Welcome
+</div>
+
+<script type="module">
+  // Import Firebase modular functions
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+  import { getDatabase, ref, onValue, increment, update } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+  import { runTransaction } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCZp9iByRLuYTQEqXPGYWh6qkAeqAHN9wI",
+  authDomain: "recharge-25324.firebaseapp.com",
+  databaseURL: "https://recharge-25324-default-rtdb.firebaseio.com",
+  projectId: "recharge-25324",
+  storageBucket: "recharge-25324.appspot.com",
+  messagingSenderId: "801483653705",
+  appId: "1:801483653705:web:82703d20e585cffb5f3598",
+};
+
+// Firebase ko initialize karo
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// Page views ko update karne ki function
+function updatePageViews() {
+  const viewsRef = ref(database, "PageViews");  // PageViews ka path
+
+  // runTransaction ka use karke count ko atomically increment karo
+  runTransaction(viewsRef, (currentData) => {
+    // Agar koi data nahi hai, to count ko 1 se start karo
+    if (currentData == null) {
+      return 1;  // Initial count ko 1 set karo
+    } else {
+      // Agar data already hai, to count ko increment karo
+      return currentData + 1;  // Count ko 1 se badhao
+    }
+  })
+  .then(() => {
+    // Views count ko update karne ke liye onValue ka use karo
+    onValue(viewsRef, (snapshot) => {
+      const data = snapshot.val();
+      // Agar data available hai, to count display karo
+      if (data !== null) {
+        document.getElementById("page-views").innerText = `इस पेज को ${data} लोगों ने देखा हैं।`;
+      } else {
+        document.getElementById("page-views").innerText = `इस पेज को 0 लोगों ने देखा हैं।`;
+      }
+    });
+  })
+  .catch((error) => {
+    console.error("Page views update karte waqt error aaya:", error);
+  });
+}
+
+// Page load hone par function call karo
+document.addEventListener("DOMContentLoaded", () => {
+  updatePageViews();
+});
+
+</script>
+</html>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -331,6 +404,40 @@
 .bheje{
 border-radius: 20px;
 }
+
+#page-views{
+      font-size: 1.8em;
+      font-weight: bold;
+      animation: colorAnimation 5s infinite alternate;
+    }
+
+    @keyframes colorAnimation {
+      0% {
+        color: #FF5733;
+        /* Red */
+      }
+
+      25% {
+        color: #33FF57;
+        /* Green */
+      }
+
+      50% {
+        color: #3357FF;
+        /* Blue */
+      }
+
+      75% {
+        color: #FF33A1;
+        /* Pink */
+      }
+
+      100% {
+        color: #FFD700;
+        /* Yellow */
+      }
+    }
+
   </style>
 </head>
 
